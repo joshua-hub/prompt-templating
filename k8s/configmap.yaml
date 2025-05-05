@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prompt-template-config
+  namespace: default
+data:
+  OPENAI_API_BASE: "http://openai-api:8000/v1"
+  QDRANT_HOST: "prompt-template-qdrant"
+  QDRANT_PORT: "6333"
+  QDRANT_COLLECTION: "policies"
+  UPLOAD_DIR: "/app/uploads"
+  DEBUG: "False" 

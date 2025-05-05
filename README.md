@@ -46,6 +46,20 @@ docker-compose up -d --build
    - Backend API: http://localhost:8000
    - Qdrant dashboard: http://localhost:6333/dashboard
 
+### Kubernetes Deployment
+
+The application can also be deployed to a Kubernetes cluster:
+
+1. Review and configure the Kubernetes manifests in the `k8s/` directory
+2. Update image references and API key in the configuration files
+3. Deploy using Kustomize:
+
+```bash
+kubectl apply -k k8s/
+```
+
+See the [Kubernetes deployment README](k8s/README.md) for detailed instructions.
+
 ### Development Setup
 
 #### Frontend
@@ -109,6 +123,7 @@ uvicorn app.main:app --reload
 │   └── src/              # Source code
 ├── backend/              # Python FastAPI backend
 │   └── app/              # Application code
+├── k8s/                  # Kubernetes deployment manifests
 ├── Dockerfile.frontend   # Frontend Dockerfile
 ├── Dockerfile.backend    # Backend Dockerfile
 ├── nginx.conf            # Nginx configuration

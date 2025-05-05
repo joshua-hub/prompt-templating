@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prompt-template-qdrant
+  namespace: default
+  labels:
+    app: prompt-template-system
+    component: qdrant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prompt-template-system
+      component: qdrant
+  template:
+    metadata:
+      labels:
+        app: prompt-template-system
+        component: qdrant
+    spec:
+      containers:
+      - name: qdrant
+        image: qdrant/qdrant:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6333
+          name: grpc-http
+        - containerPort: 6334
+          name: http
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        volumeMounts:
+        - name: qdrant-storage
+          mountPath: /qdrant/storage
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 6333
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 6333
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: qdrant-storage
+        persistentVolumeClaim:
+          claimName: prompt-template-qdrant-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prompt-template-qdrant
+  namespace: default
+  labels:
+    app: prompt-template-system
+    component: qdrant
+spec:
+  selector:
+    app: prompt-template-system
+    component: qdrant
+  ports:
+  - port: 6333
+    targetPort: 6333
+    name: grpc-http
+  - port: 6334
+    targetPort: 6334
+    name: http
+  type: ClusterIP 

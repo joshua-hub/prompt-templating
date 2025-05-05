@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prompt-template-backend
+  namespace: default
+  labels:
+    app: prompt-template-system
+    component: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prompt-template-system
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: prompt-template-system
+        component: backend
+    spec:
+      containers:
+      - name: backend
+        image: ${REGISTRY_URL}/prompt-template-backend:latest  # Replace with your registry
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: PYTHONPATH
+          value: "/app"
+        envFrom:
+        - configMapRef:
+            name: prompt-template-config
+        - secretRef:
+            name: prompt-template-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: uploads-volume
+          mountPath: /app/uploads
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: uploads-volume
+        persistentVolumeClaim:
+          claimName: prompt-template-uploads-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prompt-template-backend
+  namespace: default
+  labels:
+    app: prompt-template-system
+    component: backend
+spec:
+  selector:
+    app: prompt-template-system
+    component: backend
+  ports:
+  - port: 8000
+    targetPort: 8000
+    protocol: TCP
+  type: ClusterIP 
