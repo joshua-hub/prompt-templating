@@ -1,0 +1,121 @@
+@project_idea.txt 
+
+ask me questions and flesh out this idea into a set of documents that outline the project
+---
+    Let me ask you some questions to better understand your project idea and flesh it out into comprehensive documentation:
+
+    1. Who are the target users of this system and what specific tasks are they trying to automate?
+    A: the target users are regular users that have procedural jobs where they MUST abide by policy, thats what the rag system is for.
+    they are automating producing the first cu of a document, and maybe a few extra iterations.
+
+
+    2. What kind of policies do these users need to follow? Are these company policies, legal requirements, or something else?
+    A: business policy, but they are essentially legal requirements. we have oversight and there are consequences.
+
+    3. Could you provide an example of a template and how it would be used in a real scenario?
+    A: see "example_template.txt"
+
+    4. What should the user interface look like? Any specific design preferences or requirements?
+    a: stick with material design in javascript, i dont mind if you use a framework, like react.
+
+    5. How should the authentication/authorization system work? Who can create/edit templates?
+    a: right now this is a proof of concept and we are after a minimum viable product for demonstration. if this gets endorsed, i will start a new project with a large set of requirements.
+
+    6. What specific OpenAI models do you plan to use? (GPT-3.5, GPT-4, etc.)
+    A: cheep for the POC, but maybe a config file that allows me to set my token, model choice, etc.
+    
+    7. Do you have any technical constraints or preferences for the tech stack? (Frontend framework, backend, database, etc.)
+    A: frontend: JS and maybe react. backend and DB:happy to wrap a vector database in python fastapi. any vector db that is opensource and containerised for me already.
+
+    8. What is the deployment environment? (Cloud, on-premise, etc.)
+    a: this will be deployed on prem, on k8s, and we have openai compatible api running on prem as well.
+
+    9. Any specific performance requirements or scalability considerations?
+    a: no, non for the POC MVP.
+
+    10. What's your timeline for this project?
+    a: the size of this, i expect the whole thing to be up and running asap with your help, you are great and prototyping this type of thing.
+
+look good?
+---
+    Yes, your responses look good. I now have a clearer understanding of the project. I notice you mentioned an "example_template.txt" file that would show how templates would work in a real scenario, but I don't see that file in the workspace yet. Would you like me to create that example file based on your project description?
+
+do you want to have a go about a template for where a user is requesting time off work. they are extected to put in the number of days they want in one input field. and a reason for he other input field.
+
+the policy can be a HR policy document that is uploaded 
+
+the templated information is something like 
+```
+I would like to take 
+
+#############
+title: number of days off being requested
+description: Input the number of workdays you are requesting off. exclude useual days off,  weekends and public holidays.
+#############
+
+this is for the following reason
+
+#############
+title: reason for requesting leave
+descrition: what is the purpose of leave (i.e. annual leave, personal leave with reason)
+#############
+
+please comply with the leave policy section from the HR document referenced.
+```
+---
+    I've created the example template file in the documentation directory as requested.
+
+the technical_specifications file.
+
+the Template creation. you left off the administrator can also select an existing template and edit it, or delete it.
+
+i dont mind that users and administrators are the same people in this POC. infact, thats better as is POC will be involved in a very narrow scope trial and we need rapid iteration.
+
+the Policy document management. the uploaded policy should be associated with the template being created. maybe track it by hash, and if another template uses the same document, only embed one copy.
+---
+    I've updated the technical_specifications.md file to include:
+    
+    1. The ability for administrators to edit and delete existing templates
+    2. A note that users and administrators are the same people in this POC to enable rapid iteration
+    3. Updated the Policy Document Management section to specify that:
+       - Policy documents are associated with templates
+       - Documents are tracked by hash to prevent duplication
+       - Multiple templates can reference the same policy document without duplicating embeddings
+
+what other things might you wat to know?
+---
+    To further refine the project specifications, I'd like to know:
+
+    1. What file formats should the policy document uploader support? (PDF, DOCX, TXT, etc.)
+    2. Do you have preferences for specific vector databases? (Chroma, Qdrant, Weaviate, etc.)
+    3. How should error handling work when policy references are ambiguous or missing?
+    4. What metrics would you use to determine if the POC is successful?
+    5. Are there any specific security considerations for handling the policy documents?
+    6. Any browser compatibility requirements for the frontend?
+    7. Expected volume of templates and policy documents during the POC?
+    8. Will users need to export/download the generated documents?
+    9. Should the system maintain version history of templates or generated documents?
+    10. Any specific logging requirements for tracking usage or debugging?
+
+1. PDF (not flattenned)
+2. Qdrant. if it can run on prem, containerised, disconnected from internet.
+3.  maybe inject that the policy isnt clear and that the user needs to take action into the response text.
+4. nothing right now. the users will be providing efficiency gains feedback
+5. no, none at all. these policies, everyone can see, and the templates wont contain any sensitive information. the user input might inject that and the response will have that, so no storage of those.
+6. chrome, edge, firefox.
+7. 10-20 templates. i am expecting only 5 or 6 policy documents.
+8. just a text field for now for the response. allow a copy button. in the future, we could template it into a word document.
+9. no. single copy only.
+10. nothing special.
+---
+    I'll update the documentation with your responses. This additional information helps clarify several implementation details.
+    
+    I've added a new "Additional Requirements" section to the technical_specifications.md document that includes:
+    
+    - Document Handling: PDF support, no response storage, copy button for text
+    - Database: Qdrant requirements (on-prem, containerized, no internet)
+    - User Experience: Browser compatibility, error handling for unclear policies
+    - Expected Volume: 10-20 templates, 5-6 policy documents
+    - Security: No special requirements as policies aren't sensitive
+    - Metrics & Logging: Standard logging, user feedback for efficiency metrics
+

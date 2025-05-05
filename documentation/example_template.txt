@@ -1,0 +1,15 @@
+I would like to take 
+
+#############
+title: number of days off being requested
+description: Input the number of workdays you are requesting off. exclude useual days off, weekends and public holidays.
+#############
+
+this is for the following reason
+
+#############
+title: reason for requesting leave
+description: what is the purpose of leave (i.e. annual leave, personal leave with reason)
+#############
+
+please comply with the leave policy section from the HR document referenced. 

@@ -1,0 +1,30 @@
+I have a project idea.
+
+so we have some people who are trying to automate some of their work
+
+they have policy that they need to follow, and a fairly procedural task.
+
+what i would like to build is a template system that will allow a few things.
+
+I would like the webpage to have 3 tabs. 
+tab 1.
+this is where the user chooses a template. the template dynamically creates the requires text boxes for the user to enter information into.
+
+tab 2. this is the administrative tab.
+this is where you can select to create a new template. if you do you are presented with a large text box.
+there is an "insert user interaction" button that inserts a text block with the following:
+"title: {write the title of this input field}
+"description: {write a description for what is entered into this field}"
+where the person creating the template is expected to fill in the data for these fields.
+there can be 1 or more user "user interaction" blocks.
+this tab also allows a user to select an existing template and edit it.
+
+back to the first tab, 
+the user selects one of the saved templates and the number of text input fields is dynamic, based on the number of user interaction blocks in the template. 
+I would like the front to not show the template, only the fields, then when the prompt is sent, the front end loads the response into tab 2 and automatically switch to it.
+
+tab 3. this is a large text field that the response to the model is sent to. the user can edit this response and send it back to the model. the user can ask for changes to the content and the whole response and the template is sent back to the model to type again.
+
+I also need a document upload in tab 2. this is to attack relevant policy document into the system, and to be referenced by that template when it is selected by a user.
+
+the policy will need to be sent to an embedding model and put into a rag system so that is the user picks the template, the template filled in with the users input, and the relevant parts from the rag system are passed as the entire context to the model. For this i want to hook up to openai for embedding and for gpt.
